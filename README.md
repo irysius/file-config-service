@@ -12,7 +12,7 @@ For all paths, it is suggested an absolute path be provided.
 
 ## Installation
 
-	$ npm install @irysius/config-service
+	$ npm install @irysius/file-config-service
 	
 ## Usage
 

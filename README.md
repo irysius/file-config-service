@@ -19,23 +19,35 @@ For all paths, it is suggested an absolute path be provided.
 To instantiate a service:
 
 	var FileConfigService = require('@irysius/file-config-service');
-	var fileConfigService = FileConfigService(__dirname);
+	var fileConfigService = FileConfigService({ rootFolder: __dirname, paths: ['config.json'] });
 	
-By default it is assumed the config will be assembled in a chain of Promises:
+By default it is assumed the config will be assembled in the following manner:
 
-	Promise.resolve({})
-		.then(fileConfigService.extendWithFiles(['config.json']))
-		.then(function (config) {
+	configManager
+		.use(fileConfigService)
+		.assemble().then(function (config) {
 			// Use config
 		});
 		
 But you may use it as a standalone like so:
 
-	var config = fileConfigService.extendWithFiles(['config.json'])({});
+	fileConfigService.transform(prevConfig).then(function (config) {
+		// Use config
+	});
 	
 ## API
 ### constructor
-`FileConfigService(rootFolder: String)`
+`FileConfigService({ rootFolder: String, paths: Array<String>, locator?: () => Array<String>})`
 
-### fileConfigService.extendWithFiles
-`fileConfigService.extendWithFiles(paths: Array<String>, locator?: () => Array<String>)`
+Constructor for the config service.
+
+The root folder is mandatory, and is the root by which the paths array will resolve from.
+
+The paths array is mandatory, but may be empty. The service proceeds down the list one-by-one until it finds a matching file. It only considers the first match.
+
+Once a match is found, the locator, if provided, will be used to search for additional files that may need to be merged in.
+
+### fileConfigService.transform
+`fileConfigService.transform(prevConfig: {}) => Promise<nextConfig: {}>`
+
+Tries to merge in the located configuration, and returns a Promise of the new configuration.

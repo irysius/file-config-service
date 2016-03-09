@@ -2,7 +2,7 @@
   "name": "@irysius/file-config-service",
   "version": "0.1.1",
   "description": "Utility for parsing configurations from file based sources.",
-  "main": "build/ConfigService.js",
+  "main": "build/FileConfigService.js",
   "scripts": {
     "test": "grunt && mocha test/test",
     "prepublish": "grunt publish"
@@ -20,7 +20,7 @@
   "author": "Lester Sy (https://lestersy.io)",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.6.1"
+    "lodash": "4.6.1"
   },
   "devDependencies": {
     "babel-polyfill": "^6.6.1",

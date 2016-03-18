@@ -2,20 +2,20 @@ var _ = require('lodash');
 var fs = require('fs');
 var PATH = require('path');
 
-function FileConfigService(rootFolder) {
+function FileConfigService({ rootFolder, paths, locator }) {
 	if (!rootFolder) { throw new Error('FileConfigService requires an explicitly provided path to root all searches in.'); }
-	function extendWithFiles(paths, locator) {
-		return function extendWithFiles(config) {
-			let content = findConfig(paths, locator);
+	if (!paths || !_.isArray(paths)) { throw new Error('FileConfigService requires an array of filepaths to check for.'); }
+	
+	function transform(config) {
+		return Promise.resolve().then(() => {
+			let content = findConfig(paths, locator); // from Service instantiation.
 			if (content !== null) {
-				console.log(content);
-				console.log(config);
-				return _.assign({}, config, content);
+				return _.assign({}, config, content);	
 			} else {
 				console.info(`No valid configurations found from provided paths.`);
 				return config;
 			}	
-		};
+		});
 	}
 	
 	function findConfig(paths, locator) {
@@ -72,7 +72,7 @@ function FileConfigService(rootFolder) {
 	}
 	
 	return {
-		extendWithFiles: extendWithFiles
+		transform: transform
 	};	
 }
 

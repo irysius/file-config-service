@@ -1,6 +1,6 @@
 {
   "name": "@irysius/file-config-service",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Utility for parsing configurations from file based sources.",
   "main": "build/FileConfigService.js",
   "scripts": {
@@ -15,7 +15,9 @@
     "configuration",
     "config",
     "settings",
-    "setting"
+    "setting",
+	"file",
+	"filesystem"
   ],
   "author": "Lester Sy (https://lestersy.io)",
   "license": "MIT",
